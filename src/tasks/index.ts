@@ -1,32 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const db = require('./db');
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-app.get('/', (req, res) => {
-    res.status(200).json({
-        "code": 200,
-        "data": {
-            "test": "Welcome to Test API"
-        }
-    })
-});
-
-// app.get('/tasks', (req, res) => {
-//     db.getTasks().then(tasks => {
-//         console.log('tasks', tasks);
-//         res.status(200).json(tasks);
-//     }).catch(err => {
-//         console.log('err ', err);
-//         res.status(500).json("Server Error");
-//     }).finally(() => {
-
-//     });    
-// });
-
-app.get('/tasks', async (req, res) => {
+import { Router } from "express";
+import db from './db'
+const tasksRouter = Router();
+tasksRouter.get('/tasks', async (req, res) => {
     try {
         const tasks = await db.getTasks();
         res.status(200).json(tasks);
@@ -36,7 +11,7 @@ app.get('/tasks', async (req, res) => {
     }    
 });
 
-app.post('/tasks', async (req, res) => {
+tasksRouter.post('/tasks', async (req, res) => {
     try {
         const { value } = req.body;
         if (typeof value !== 'string') {
@@ -59,7 +34,7 @@ app.post('/tasks', async (req, res) => {
     }
 });
 
-app.delete('/tasks/:id', async (req, res) => {
+tasksRouter.delete('/tasks/:id', async (req, res) => {
     try {
         const inputId = req.params.id;
         const id = parseInt(inputId, 10);
@@ -75,8 +50,4 @@ app.delete('/tasks/:id', async (req, res) => {
     }
 })
 
-const runningPort = 9191;
-
-app.listen(runningPort, () => {
-    console.log('Api is running now');
-});
+export default tasksRouter

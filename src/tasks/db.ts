@@ -1,3 +1,4 @@
+import { ITask } from 'interface';
 const db = {
     tasks: [
         {
@@ -16,12 +17,7 @@ const db = {
             id: 4,
             value: 'Do voluptate ut cillum esse laboris ut voluptate ullamco laboris reprehenderit consequat do.'
         }
-    ]
-}
-const getData =() => {
-    return new Promise((resolve, reject) => {
-        resolve(db);
-    });
+    ] as ITask[]
 }
 
 const getTasks = () => {
@@ -38,7 +34,7 @@ const getMaxId = () => {
     return maxId;
 }
 
-const addTask = (value) => {
+const addTask = (value: string): Promise<ITask[]> => {
     return new Promise((resolve, reject) => {
         const maxId = getMaxId();
         db.tasks.push({ 
@@ -50,7 +46,7 @@ const addTask = (value) => {
     });
 }
 
-const removeTask = (id) => {
+const removeTask = (id: number): Promise<ITask[]> => {
     return new Promise((resolve, reject) => {
         if (typeof id !== 'number') reject('Invalid Id');
         db.tasks = db.tasks.filter(task => task.id !== id);
@@ -59,8 +55,7 @@ const removeTask = (id) => {
     });
 }
 
-module.exports = {
-    getData,
+export default {
     getTasks,
     addTask,
     removeTask

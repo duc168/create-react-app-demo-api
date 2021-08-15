@@ -1,14 +1,30 @@
 {
-  "name": "test-express-api",
+  "name": "demo-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.ts",
   "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "nodemon": "^2.0.12"
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "webpack": "5.50.0"
   },
   "scripts": {
-    "start": "nodemon"
-  }
+    "start": "node dist/main.js",
+    "dev": "webpack --watch",
+    "prod": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production"
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.12",
+    "@types/express": "4.17.13",
+    "@webpack-cli/generators": "2.2.0",
+    "nodemon-webpack-plugin": "4.5.2",
+    "prettier": "2.3.2",
+    "ts-loader": "9.2.5",
+    "typescript": "4.3.5",
+    "webpack-cli": "4.7.2",
+    "webpack-dev-server": "3.11.2"
+  },
+  "description": "Demo API"
 }
