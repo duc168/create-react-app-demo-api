@@ -15,24 +15,40 @@ const getMaxId = () => {
     return maxId;
 }
 
-const addTask = (value: string): Promise<ITask[]> => {
+const addTask = (value: string): Promise<ITask> => {
     return new Promise((resolve, reject) => {
+        if (typeof value !== 'string') {
+            reject("Invalid Value");
+        }
+        if (value === '') {
+            reject("Invalid Value");
+        }
         const maxId = getMaxId();
-        db.tasks.push({ 
-        id: maxId + 1,
-        value: value
-        });
-        console.log(db.tasks)
-        resolve(db.tasks);
+        const newTask = {
+            id: maxId + 1,
+            value: value
+        } as ITask
+        db.tasks.push(newTask);
+        resolve(newTask);
     });
 }
 
-const removeTask = (id: number): Promise<ITask[]> => {
+const removeTask = (inputId: string): Promise<number> => {
     return new Promise((resolve, reject) => {
-        if (typeof id !== 'number') reject('Invalid Id');
-        db.tasks = db.tasks.filter(task => task.id !== id);
-        console.log(db.tasks);
-        resolve(db.tasks);
+        try {
+            if (
+                inputId === '' ||
+                inputId === null ||
+                inputId === undefined
+                ) reject('Invalid Input Id');
+            const id = parseInt(inputId, 10);
+            if (typeof id !== 'number') reject('Invalid Id');
+            db.tasks = db.tasks.filter(task => task.id !== id);
+            resolve(id);
+        } catch (error) {
+            reject(error)
+        }
+
     });
 }
 
