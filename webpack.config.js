@@ -2,6 +2,7 @@
 
 const path = require("path");
 const NodemonPlugin = require("nodemon-webpack-plugin");
+const TsConfigPathPlugin = require("tsconfig-paths-webpack-plugin");
 const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
@@ -33,6 +34,9 @@ const config = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    plugins: [
+      new TsConfigPathPlugin()
+    ]
   },
 };
 

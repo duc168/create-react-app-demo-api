@@ -1,9 +1,9 @@
 import { Router } from "express";
-import db from './db'
-const tasksRouter = Router();
-tasksRouter.get('/tasks', async (req, res) => {
+import service from '@/services/tasks'
+const router = Router();
+router.get('/', async (req, res) => {
     try {
-        const tasks = await db.getTasks();
+        const tasks = await service.getTasks();
         res.status(200).json(tasks);
     } catch(error) {
         console.log('error ', error);
@@ -11,7 +11,7 @@ tasksRouter.get('/tasks', async (req, res) => {
     }    
 });
 
-tasksRouter.post('/tasks', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { value } = req.body;
         if (typeof value !== 'string') {
@@ -22,7 +22,7 @@ tasksRouter.post('/tasks', async (req, res) => {
             res.status(400).json("Invalid Value");
             return
         }
-        const tasks = await db.addTask(value);
+        const tasks = await service.addTask(value);
         const result = tasks.length > 0;
         res.status(200).json({
             status: result,
@@ -34,11 +34,11 @@ tasksRouter.post('/tasks', async (req, res) => {
     }
 });
 
-tasksRouter.delete('/tasks/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const inputId = req.params.id;
         const id = parseInt(inputId, 10);
-        const tasks = await db.removeTask(id);
+        const tasks = await service.removeTask(id);
         const result = tasks.length >= 0;        
         res.status(200).json({
             status: result,
@@ -50,4 +50,4 @@ tasksRouter.delete('/tasks/:id', async (req, res) => {
     }
 })
 
-export default tasksRouter
+export default router

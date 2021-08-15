@@ -5,7 +5,10 @@
     "module": "CommonJS",
     "target": "es5",
     "strict": true,
+    "esModuleInterop": true,
     "baseUrl": "src",
-    "esModuleInterop": true
-  }
+    "paths": {
+      "@/*": ["*"]
+    }
+  }  
 }
